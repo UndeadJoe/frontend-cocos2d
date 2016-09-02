@@ -4,13 +4,13 @@ var TrainLayer = cc.Layer.extend({
     ctor: function () {
         this._super();
 
-        var size = cc.director.getWinSize();
+        this.poleSize = cc.director.getWinSize();
 
         this.trainParts = [];
 
         /* create train head */
         this.trainHead = new TrainSprite(asset.simple_car_svg);
-        this.trainHead.move(size.width / 2, size.height / 2);
+        this.trainHead.move(this.poleSize.width / 2, this.poleSize.height / 2);
 
         this.addChild(this.trainHead);
 
@@ -56,6 +56,9 @@ var TrainLayer = cc.Layer.extend({
     },
     update: function(dt) {
         var left = 2;
+        if (this.trainParts[0].x > this.poleSize.width - 80)
+            return;
+
         if (this.counter < this.interval) {
             this.counter += dt;
         } else {

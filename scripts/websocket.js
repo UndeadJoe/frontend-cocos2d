@@ -10,7 +10,7 @@ function init()
 
 function testWebSocket()
 {
-    websocket = new WebSocket(wsUri, 'echo-protocol');
+    websocket = new WebSocket(wsUri, 'train-protocol');
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };
