@@ -30,7 +30,8 @@ function onClose(evt)
 
 function onMessage(evt)
 {
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    var data = JSON.parse(evt.data);
+    writeToScreen('<span style="color: blue;">RESPONSE: ' + data.coordX + " : " + data.coordY +'</span>');
     websocket.close();
 }
 

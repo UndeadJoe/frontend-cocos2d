@@ -21,7 +21,7 @@ var TrainLayer = cc.Layer.extend({
         //    this.addPart();
         //}
 
-        this.scheduleUpdate();
+        //this.scheduleUpdate();
     },
 
     addPart: function() {
@@ -54,6 +54,13 @@ var TrainLayer = cc.Layer.extend({
             dirMap[dir]();
         }
     },
+
+    moveTrainTo: function(x, y) {
+        var trainHead = this.trainParts[0];
+
+        trainHead.moveTo(10, x, y);
+    },
+
     update: function(dt) {
         var left = 2;
         if (this.trainParts[0].x > this.poleSize.width - 80)
