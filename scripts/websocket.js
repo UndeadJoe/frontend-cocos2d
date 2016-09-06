@@ -35,7 +35,6 @@ function onMessage(evt)
     var data = JSON.parse(evt.data);
 
     myevent.setUserData(data);
-    console.log('2');
     cc.eventManager.dispatchEvent(myevent);
 
     writeToScreen('<span style="color:blue;">RESPONSE: ' + data.x + ' : ' + data.y +'</span>');

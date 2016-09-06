@@ -17,9 +17,7 @@ var MapScene = cc.Scene.extend({
             callback: function(event){
                 var data = event.getUserData();
                 var moveTo = new cc.MoveTo(10, data.x, data.y);
-
                 train_layer.trainParts[0].runAction(moveTo);
-
             }
         });
         console.log('1');
