@@ -2,7 +2,7 @@ var wsUri = "ws://localhost:3000/";
 
 var output;
 
-var myevent = new cc.EventCustom("game_custom_event1");
+var eventPosition = new cc.EventCustom("change_position");
 
 function init()
 {
@@ -22,7 +22,7 @@ function testWebSocket()
 function onOpen(evt)
 {
     writeToScreen("CONNECTED");
-    doSend("WebSocket rocks");
+    //doSend("WebSocket rocks");
 }
 
 function onClose(evt)
@@ -32,12 +32,13 @@ function onClose(evt)
 
 function onMessage(evt)
 {
-    var data = JSON.parse(evt.data);
+    var response = JSON.parse(evt.data);
 
-    myevent.setUserData(data);
-    cc.eventManager.dispatchEvent(myevent);
-
-    writeToScreen('<span style="color:blue;">RESPONSE: ' + data.x + ' : ' + data.y +'</span>');
+    if (response.action == Events.NEW_POSITION) {
+        eventPosition.setUserData(response.data);
+        cc.eventManager.dispatchEvent(eventPosition);
+        writeToScreen('<span style="color:blue;">RESPONSE: ' + response.data.x + ' : ' + response.data.y +'</span>');
+    }
 
     //websocket.close();
 }

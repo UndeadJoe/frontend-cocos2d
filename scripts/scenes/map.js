@@ -4,23 +4,27 @@ var MapScene = cc.Scene.extend({
 
         var size = cc.director.getWinSize();
 
-        var train_layer = new TrainLayer();
-        this.addChild(train_layer, 0);
+        var map_layer = new MapLayer();
+        this.addChild(map_layer, 0);
 
-        var label = cc.LabelTTF.create("My Game", "Arial", 40);
+        var train_layer = new TrainLayer();
+        this.addChild(train_layer, 1);
+
+        var label = cc.LabelTTF.create("My Game", "Arial", 18);
         label.setPosition(size.width / 2, size.height / 2);
-        this.addChild(label, 1);
+        label.setColor(0,0,0);
+        this.addChild(label, 2);
 
         var _listener1 = cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
-            eventName: "game_custom_event1",
+            eventName: "change_position",
             callback: function(event){
                 var data = event.getUserData();
-                var moveTo = new cc.MoveTo(10, data.x, data.y);
+                var moveTo = new cc.MoveTo(3, cc.p(data.x, data.y));
                 train_layer.trainParts[0].runAction(moveTo);
+                label.setString(train_layer.trainParts[0].x + ':' + train_layer.trainParts[0].y);
             }
         });
-        console.log('1');
         cc.eventManager.addListener(_listener1, 1);
 
         // var moveBy = new cc.MoveBy(10, 50, 10);
