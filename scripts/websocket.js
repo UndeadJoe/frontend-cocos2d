@@ -2,6 +2,8 @@ var wsUri = "ws://localhost:3000/";
 
 var output;
 
+var myevent = new cc.EventCustom("game_custom_event1");
+
 function init()
 {
     output = document.getElementById("output");
@@ -31,8 +33,14 @@ function onClose(evt)
 function onMessage(evt)
 {
     var data = JSON.parse(evt.data);
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + data.coordX + " : " + data.coordY +'</span>');
-    websocket.close();
+
+    myevent.setUserData(data);
+    console.log('2');
+    cc.eventManager.dispatchEvent(myevent);
+
+    writeToScreen('<span style="color:blue;">RESPONSE: ' + data.x + ' : ' + data.y +'</span>');
+
+    //websocket.close();
 }
 
 function onError(evt)
