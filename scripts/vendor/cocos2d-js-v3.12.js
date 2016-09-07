@@ -20988,7 +20988,12 @@ cc.TMXLayer = cc.SpriteBatchNode.extend({
             return new cc.TMXLayer.WebGLRenderCmd(this);
     },
     _fillTextureGrids: function (tileset, texId) {
-        var tex = this._textures[texId];
+        var tex = null;
+        if(Number.isInteger(texId)){
+            tex = this._textures[texId];
+        }else{
+            tex = texId;
+        }
         if (!tex.isLoaded()) {
             tex.addEventListener("load", function () {
                 this._fillTextureGrids(tileset, tex);

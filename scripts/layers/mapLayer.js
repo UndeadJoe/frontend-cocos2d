@@ -1,27 +1,26 @@
 var MapLayer = cc.Layer.extend({
-    ctor:function () {
+    ctor:function (space) {
         this._super();
 
-        var tiledMap = cc.TMXTiledMap.create(asset.test_map);
-        this.addChild(tiledMap, 0, 1);
+        this.init();
+    },
+    init:function () {
+        this._super();
 
-        var layer = tiledMap.getLayer('layer1');
+        this._map = new cc.TMXTiledMap(asset.test_map);
+        this._map.setAnchorPoint(cc.p(0,0));
+        this._map.setPosition(cc.p(0,0));
+        this._map.setScaleX(1);
+        this._map.setScaleY(1);
 
-        var tile0 = layer.getTileAt(cc.p(0,0), 0);
+        this.addChild(this._map);
+    },
+    moveView: function (position) {
+        var currentPosition = this._map.getPosition();
+        var newPosition = cc.p(currentPosition.x - position.x, currentPosition.y - position.y);
 
-        var sprite = new sprite();
-        sprite.setAnchorPoint(cc.p(0.5,0.5));
-        var x = tile0.getPosition().x + 30;
-        var y = tile0.getPosition().y + 72;
-        sprite.setPosition(cc.p(x,y));
+        console.log(newPosition, currentPosition, position);
 
-        this.addChild(layer);
-
-        // var childrenArray = tiledMap.getChildren();
-        // for (var i = 0; i < childrenArray.length; i++) {
-        //     var child = childrenArray[i];
-        //     child.getTexture().setAntiAliasTexParameters();
-        // }
-        // tiledMap.runAction(cc.ScaleBy.create(2, 0.5));
+        this._map.setPosition(newPosition);
     }
 });

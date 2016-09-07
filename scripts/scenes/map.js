@@ -27,6 +27,57 @@ var MapScene = cc.Scene.extend({
         });
         cc.eventManager.addListener(_listener1, 1);
 
+        // checks if the device you are using is capable of mouse input
+        if ( cc.sys.capabilities.hasOwnProperty( 'mouse' ) )
+        {
+            cc.eventManager.addListener(
+                {
+                    event: cc.EventListener.MOUSE,
+
+                    onMouseDown: function(event)
+                    {
+                        if ( event.getButton( ) == cc.EventMouse.BUTTON_LEFT )
+                        {
+                            this.prevX = map_layer.convertToNodeSpace(event.getLocation()).x;
+                            this.prevY = map_layer.convertToNodeSpace(event.getLocation()).y;
+                            console.log( "Left mouse button pressed at " + this.prevX + ":" + this.prevY);
+                        }
+                    },
+
+                    // onMouseUp: function(event)
+                    // {
+                    //     if ( event.getButton() == cc.EventMouse.BUTTON_LEFT )
+                    //     {
+                    //         this.newX = map_layer.convertToNodeSpace(event.getLocation()).x;
+                    //         this.newY = map_layer.convertToNodeSpace(event.getLocation()).y;
+                    //         console.log( "Left mouse button released at "  + this.newX + ":" + this.newY );
+                    //
+                    //         var newPosition = cc.p(this.prevX - this.newX, this.prevY - this.newY);
+                    //
+                    //         map_layer.moveView(newPosition);
+                    //     }
+                    // },
+
+                    onMouseMove: function(event)
+                    {
+                        if ( event.getButton() == cc.EventMouse.BUTTON_LEFT )
+                        {
+                            this.newX = map_layer.convertToNodeSpace(event.getLocation()).x;
+                            this.newY = map_layer.convertToNodeSpace(event.getLocation()).y;
+
+                            var newPosition = cc.p(this.prevX - this.newX, this.prevY - this.newY);
+
+                            map_layer.moveView(newPosition);
+                        }
+                    },
+
+                    onMouseScroll: function(event)
+                    {
+                        console.log( "Scroll: " + event.getLocationX( ) );
+                    }
+                }, this );
+        }
+
         // var moveBy = new cc.MoveBy(10, 50, 10);
         // train.runAction(moveBy);
     }
