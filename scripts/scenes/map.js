@@ -1,4 +1,6 @@
 var MapScene = cc.Scene.extend({
+    previousPos: { x: 0, y: 0 },
+    newPos: { x: 0, y: 0 },
     onEnter:function () {
         this._super();
 
@@ -38,9 +40,7 @@ var MapScene = cc.Scene.extend({
                     {
                         if ( event.getButton( ) == cc.EventMouse.BUTTON_LEFT )
                         {
-                            this.prevX = map_layer.convertToNodeSpace(event.getLocation()).x;
-                            this.prevY = map_layer.convertToNodeSpace(event.getLocation()).y;
-                            console.log( "Left mouse button pressed at " + this.prevX + ":" + this.prevY);
+                            this.previousPos = map_layer.convertToNodeSpace(event.getLocation());
                         }
                     },
 
@@ -48,38 +48,14 @@ var MapScene = cc.Scene.extend({
                     {
                         if ( event.getButton() == cc.EventMouse.BUTTON_LEFT )
                         {
-                            var newPosition = cc.p(event.getLocation().x, event.getLocation().y);
-                           // newPosition = cc.director.convertToGL(newPosition);
-                            newPosition = map_layer.convertToNodeSpace(newPosition);
+                            this.newPos = map_layer.convertToNodeSpace(event.getLocation());
+                            var diff = cc.pSub(this.previousPos, this.newPos);
 
-                            //newPosition = cc.pSub(newPosition, map_layer._map.getPosition());
-                            console.log(map_layer._map.getPosition());
+                            var newPosition = cc.pSub(map_layer._map.getPosition(), diff);
 
-                            var diff = cc.pSub(newPosition, map_layer.currentPosition);
+                            map_layer.moveView(newPosition);
 
-                            if ( Math.abs(diff.x) > Math.abs(diff.y) ) {
-                                if (diff.x > 0) {
-                                    newPosition.x += map_layer._map.getTileSize().width;
-                                } else {
-                                    newPosition.x -= map_layer._map.getTileSize().width;
-                                }
-                            } else {
-                                if (diff.y > 0) {
-                                    newPosition.y += map_layer._map.getTileSize().height;
-                                } else {
-                                    newPosition.y -= map_layer._map.getTileSize().height;
-                                }
-                            }
-
-                            // safety check on the bounds of the map
-                            if (newPosition.x <= (map_layer._map.getMapSize().width * map_layer._map.getTileSize().width) &&
-                                newPosition.y <= (map_layer._map.getMapSize().height * map_layer._map.getTileSize().height) &&
-                                newPosition.y >= 0 &&
-                                newPosition.x >= 0 )
-                            {
-                                map_layer.moveView(newPosition);
-                            }
-
+                            this.previousPos = map_layer.convertToNodeSpace(event.getLocation());
                         }
                     },
 
