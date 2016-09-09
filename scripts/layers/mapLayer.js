@@ -27,8 +27,8 @@ var MapLayer = cc.Layer.extend({
         var winSize = cc.director.getWinSize();
         var x = Math.min(position.x, 0);
         var y = Math.min(position.y, 0);
-        x = Math.max(x, (-1)*((this._map.getMapSize().width * this._map.getTileSize().width) - winSize.width));
-        y = Math.max(y, (-1)*((this._map.getMapSize().height * this._map.getTileSize().height) - winSize.height));
+        x = Math.max(x, (-1)*((this._map.getMapSize().width * this._map.getTileSize().width)*this._map.getScale() - winSize.width));
+        y = Math.max(y, (-1)*((this._map.getMapSize().height * this._map.getTileSize().height)*this._map.getScale() - winSize.height));
 
         this._map.setPosition(cc.p(x, y));
     }

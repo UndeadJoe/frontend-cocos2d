@@ -61,6 +61,13 @@ var TrainLayer = cc.Layer.extend({
         trainHead.moveTo(10, x, y);
     },
 
+    moveViewBy: function (diff) {
+        var trainHead = this.trainParts[0];
+        var position = cc.pSub(cc.p(trainHead.x, trainHead.y), diff);
+
+        trainHead.move(position.x,position.y);
+    },
+
     update: function(dt) {
         var left = 2;
         if (this.trainParts[0].x > this.poleSize.width - 80)

@@ -53,6 +53,7 @@ var MapScene = cc.Scene.extend({
                             this.diff = cc.pSub(this.previousPos, this.newPos);
 
                             map_layer.moveViewBy(this.diff);
+                            train_layer.moveViewBy(this.diff);
 
                             this.previousPos = map_layer.convertToNodeSpace(event.getLocation());
                         }
