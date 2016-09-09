@@ -20,16 +20,16 @@ var MapLayer = cc.Layer.extend({
         this.addChild(this._map);
     },
     moveView: function (position) {
-        // var winSize = cc.director.getWinSize();
-        //
-        // var x = Math.max(position.x, winSize.width/2);
-        // var y = Math.max(position.y, winSize.height/2);
-        // x = Math.min(x, (this._map.getMapSize().width * this._map.getTileSize().width) - winSize.width / 2);
-        // y = Math.min(y, (this._map.getMapSize().height * this._map.getTileSize().height) - winSize.height / 2);
-        // var actualPosition = cc.p(x, y);
-        //
-        // var centerOfView = cc.p(winSize.width/2, winSize.height/2);
-        // var viewPoint = cc.pSub(centerOfView, actualPosition);
         this._map.setPosition(position);
+    },
+    moveViewBy: function (diff) {
+        var position = cc.pSub(this._map.getPosition(), diff);
+        var winSize = cc.director.getWinSize();
+        var x = Math.min(position.x, 0);
+        var y = Math.min(position.y, 0);
+        x = Math.max(x, (-1)*((this._map.getMapSize().width * this._map.getTileSize().width) - winSize.width));
+        y = Math.max(y, (-1)*((this._map.getMapSize().height * this._map.getTileSize().height) - winSize.height));
+
+        this._map.setPosition(cc.p(x, y));
     }
 });

@@ -1,6 +1,7 @@
 var MapScene = cc.Scene.extend({
     previousPos: { x: 0, y: 0 },
     newPos: { x: 0, y: 0 },
+    diff: 0,
     onEnter:function () {
         this._super();
 
@@ -49,11 +50,9 @@ var MapScene = cc.Scene.extend({
                         if ( event.getButton() == cc.EventMouse.BUTTON_LEFT )
                         {
                             this.newPos = map_layer.convertToNodeSpace(event.getLocation());
-                            var diff = cc.pSub(this.previousPos, this.newPos);
+                            this.diff = cc.pSub(this.previousPos, this.newPos);
 
-                            var newPosition = cc.pSub(map_layer._map.getPosition(), diff);
-
-                            map_layer.moveView(newPosition);
+                            map_layer.moveViewBy(this.diff);
 
                             this.previousPos = map_layer.convertToNodeSpace(event.getLocation());
                         }
